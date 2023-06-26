@@ -1,5 +1,5 @@
 {
-  "name": "ag-recorder",
+  "name": "@endbug/ladybug",
   "version": "1.0.0",
   "private": true,
   "description": "A REST-enabled program to record camera output to files",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EndBug/ag-recorder.git"
+    "url": "git+https://github.com/EndBug/ladybug.git"
   },
   "author": "Federico Grandi <fgrandi30@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/EndBug/ag-recorder/issues"
+    "url": "https://github.com/EndBug/ladybug/issues"
   },
-  "homepage": "https://github.com/EndBug/ag-recorder#readme",
+  "homepage": "https://github.com/EndBug/ladybug#readme",
   "dependencies": {
     "@types/body-parser": "^1.19.2",
     "@types/cors": "^2.8.13",
