@@ -39,14 +39,9 @@ app.post('/start', (req, res) => {
   config.devices.forEach((device) => {
     if (!recording) return;
 
-    const { framerate, video_size, input, name } = device;
+    const fn = getFilePath(recording, device.name);
 
-    const fn = getFilePath(recording, name);
-
-    const command =
-      `ffmpeg -f v4l2 -framerate ${framerate} -video_size ${video_size} -i ${input} -c:v copy ${fn}`.split(
-        ' '
-      );
+    const command = device.command.replace(/\$\{fn\}/g, fn).split(' ');
 
     const process = spawn(command[0], command.slice(1));
     process.on('spawn', () => {
@@ -56,7 +51,7 @@ app.post('/start', (req, res) => {
       console.error(`Error while starting ${fn}: ${data.toString()}`);
     });
 
-    processes[name] = process;
+    processes[device.name] = process;
   });
 
   res.status(200).send();
