@@ -1,13 +1,12 @@
-const config = {
-  devices: [
-    {
-      command:
-        'ffmpeg -f v4l2 -framerate 30 -video_size 1280x720 -i /dev/video0 -c:v copy ${fn}.mkv',
-      name: 'fs',
-    },
-  ],
-  root_dir: '/home/agvideo/Videos',
-  port: 3000,
-} as const;
+export interface Config {
+  devices: Array<{
+    command: string;
+    name: string;
+  }>;
+  root_dir: string;
+  port: number;
+}
+
+const config = require('../config.json') as Config;
 
 export default config;
