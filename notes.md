@@ -8,3 +8,8 @@ Requirements:
 - vlc
 - nodejs
 - v4l-utils
+
+vlc settings:
+
+- Input/Codecs > Demuxers > Image > Duration in seconds <- -1
+- Input/Codecs > Demuxers > Image > Real-time <- true

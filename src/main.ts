@@ -42,9 +42,9 @@ app.post('/start', (req, res) => {
 
     const fn = getFilePath(recording, device.name);
 
-    const command = device.command.replace(/\$\{fn\}/g, fn).split(' ');
+    const command = device.command.replace(/\$\{fn\}/g, fn);
 
-    const process = spawn(command[0], command.slice(1));
+    const process = spawn('sh', ['-c', ...command.split(' ')]);
     process.on('spawn', () => {
       console.log(`Started: ${fn}`);
     });
@@ -85,11 +85,9 @@ app.post('/stop', (req, res) => {
       const fn = getRecordingFile(lastSaved, config.replay.default_camera);
 
       if (fn) {
-        const command = config.replay.command
-          .replace(/\$\{fn\}/g, fn)
-          .split(' ');
+        const command = config.replay.command.replace(/\$\{fn\}/g, fn);
 
-        const process = spawn(command[0], command.slice(1), {
+        const process = spawn('sh', ['-c', ...command.split(' ')], {
           env: config.replay.env,
         });
         process.on('spawn', () => {
