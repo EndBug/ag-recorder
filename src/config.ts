@@ -11,6 +11,6 @@ export interface Config {
   port: number;
 }
 
-const config = require('../config.json') as Config;
+const config = require('../config.js') as Config;
 
 export default config;
