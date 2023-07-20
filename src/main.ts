@@ -44,7 +44,7 @@ app.post('/start', (req, res) => {
 
     const command = device.command.replace(/\$\{fn\}/g, fn);
 
-    const process = spawn('sh', ['-c', ...command.split(' ')]);
+    const process = spawn('sh', ['-c', command]);
     process.on('spawn', () => {
       console.log(`Started: ${fn}`);
     });
@@ -87,7 +87,7 @@ app.post('/stop', (req, res) => {
       if (fn) {
         const command = config.replay.command.replace(/\$\{fn\}/g, fn);
 
-        const process = spawn('sh', ['-c', ...command.split(' ')], {
+        const process = spawn('sh', ['-c', command], {
           env: config.replay.env,
         });
         process.on('spawn', () => {
