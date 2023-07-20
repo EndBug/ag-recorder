@@ -10,6 +10,9 @@ module.exports = {
   replay: {
     command: 'vlc ${fn}',
     default_camera: 'fs',
+    env: {
+      DISPLAY: ':0',
+    }
   },
   root_dir: '/home/agvideo/Videos',
   port: 3000,

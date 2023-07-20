@@ -89,7 +89,9 @@ app.post('/stop', (req, res) => {
           .replace(/\$\{fn\}/g, fn)
           .split(' ');
 
-        const process = spawn(command[0], command.slice(1));
+        const process = spawn(command[0], command.slice(1), {
+          env: config.replay.env,
+        });
         process.on('spawn', () => {
           console.log(`Started replay: ${getFolderPath(lastSaved!)}`);
         });
