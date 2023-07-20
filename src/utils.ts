@@ -9,7 +9,7 @@ export function getFilePath(timestamp: timestamp, camera: camera) {
   const { YYYY, MM, DD, HH, mm, ss } = timestamp;
   return path.join(
     getFolderPath(timestamp),
-    `${YYYY}-${MM}-${DD}_${HH}-${mm}-${ss}_${camera}`
+    `${YYYY}-${MM}-${DD}_${HH}-${mm}-${ss}_${camera}.mkv`
   );
 }
 
