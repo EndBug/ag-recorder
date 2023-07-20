@@ -21,11 +21,24 @@ let lastSaved: timestamp | undefined;
 /** The timestamp of the videos that are currently being recorded */
 let recording: timestamp | undefined;
 /** A map of the current encoding processes, one for each device */
-let processes = {} as Record<camera, ReturnType<typeof spawn>>;
+let recProcesses = {} as Record<camera, ReturnType<typeof spawn>>;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+
+if (config.replay.startup) {
+  const startupProcess = spawn('sh', ['-c', config.replay.startup], {
+    env: config.replay.env,
+  });
+
+  startupProcess.on('spawn', () => {
+    console.log(`Started startup program.`);
+  });
+  startupProcess.stderr?.on('data', (data) => {
+    console.error(`Error while starting startup program: ${data.toString()}`);
+  });
+}
 
 app.post('/start', (req, res) => {
   if (recording !== undefined)
@@ -52,7 +65,7 @@ app.post('/start', (req, res) => {
       console.error(`Error while starting ${fn}: ${data.toString()}`);
     });
 
-    processes[device.name] = process;
+    recProcesses[device.name] = process;
   });
 
   res.status(200).send();
@@ -64,7 +77,7 @@ app.post('/stop', (req, res) => {
 
     const errors: string[] = [];
 
-    Object.entries(processes).forEach(([cam, process]) => {
+    Object.entries(recProcesses).forEach(([cam, process]) => {
       try {
         if (!recording) return;
 
