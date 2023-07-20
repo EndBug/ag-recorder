@@ -3,6 +3,10 @@ export interface Config {
     command: string;
     name: string;
   }>;
+  replay: {
+    command: string;
+    default_camera: string;
+  };
   root_dir: string;
   port: number;
 }

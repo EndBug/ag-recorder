@@ -9,6 +9,7 @@ import {
   camera,
   getFilePath,
   getFolderPath,
+  getRecordingFile,
   getTimeStamp,
   timestamp,
 } from './utils';
@@ -79,6 +80,24 @@ app.post('/stop', (req, res) => {
 
     lastSaved = recording;
     recording = undefined;
+
+    if (config.replay.command && lastSaved) {
+      const fn = getRecordingFile(lastSaved, config.replay.default_camera);
+
+      if (fn) {
+        const command = config.replay.command
+          .replace(/\$\{fn\}/g, fn)
+          .split(' ');
+
+        const process = spawn(command[0], command.slice(1));
+        process.on('spawn', () => {
+          console.log(`Started replay: ${getFolderPath(lastSaved!)}`);
+        });
+        process.stderr?.on('data', (data) => {
+          console.error(`Error while starting replay: ${data.toString()}`);
+        });
+      } else errors.push(`Couldn't find recording file for replay.`);
+    }
 
     if (errors.length > 0)
       res

@@ -1,6 +1,7 @@
 import moment from 'moment';
 import path from 'path';
 import config from './config';
+import fs from 'fs';
 
 export type camera = (typeof config.devices)[number]['name'];
 
@@ -14,6 +15,19 @@ export function getFilePath(timestamp: timestamp, camera: camera) {
 
 export function getFolderPath({ YYYY, MM, DD }: timestamp) {
   return path.join(config.root_dir, YYYY, MM, DD);
+}
+
+export function getRecordingFile(timestamp: timestamp, camera: camera) {
+  let fn = getFilePath(timestamp, camera);
+
+  if (!fs.existsSync(fn)) {
+    const folder = getFolderPath(timestamp);
+
+    if (fs.existsSync(folder)) {
+      const files = fs.readdirSync(folder);
+      if (files.length > 0) return path.join(folder, files[0]);
+    }
+  } else return fn;
 }
 
 export function getTimeStamp() {
