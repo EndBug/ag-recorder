@@ -8,8 +8,8 @@ module.exports = {
     },
   ],
   replay: {
-    startup: 'vlc --fullscreen /home/agvideo/logo.png',
-    command: 'vlc --fullscreen ${fn} && vlc --playlist-enqueue /home/agvideo/logo.png',
+    startup: 'vlc --no-osd --fullscreen /home/agvideo/logo.png',
+    command: 'vlc --fullscreen ${fn} && vlc --playlist-enqueue --no-osd /home/agvideo/logo.png',
     default_camera: 'fs',
     env: {
       DISPLAY: ':0',
